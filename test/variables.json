@@ -28,8 +28,8 @@
   "keras_version": "1.2.0",
   "nb_classes": 2,
   "nb_inputs": 4,
-  "nb_testing": 999,
-  "nb_training": 999,
-  "nb_validation": 999,
-  "part of training-set for validation-set": 1.0
+  "nb_testing": 0,
+  "nb_training": 12000,
+  "nb_validation": 0,
+  "part of training-set for validation-set": 0.5
 }
