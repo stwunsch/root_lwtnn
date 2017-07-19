@@ -5,4 +5,4 @@ file(GLOB SOURCES "*.cxx")
 add_executable(root_lwtnn ${SOURCES})
 
 # Link libraries to the executable
-target_link_libraries(root_lwtnn ${ROOT_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(root_lwtnn ${ROOT_LIBRARIES} ${Boost_LIBRARIES} ${LWTNN_LIBRARIES})
