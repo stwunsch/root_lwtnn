@@ -76,7 +76,7 @@ def main(args):
 
     # Train model
     model = build_model()
-    model.fit(events, labels, batch_size=100, nb_epoch=10, validation_split=0.5)
+    model.fit(events, labels, batch_size=100, epochs=10, validation_split=0.5)
 
     # Save model with weights and architecture separated
     model.save_weights(args.weights, overwrite=True)
