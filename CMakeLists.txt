@@ -2,7 +2,6 @@
 cmake_minimum_required(VERSION 3.4.3)
 
 # Enable test cases
-# TODO: How are tests of executables are designed?
 #enable_testing()
 
 # Setup project
