@@ -1,0 +1,35 @@
+{
+  "class_labels": [
+    "signal",
+    "background"
+  ],
+  "inputs": [
+    {
+      "name": "var1",
+      "offset": 0.0,
+      "scale": 1.0
+    },
+    {
+      "name": "var2",
+      "offset": 0.0,
+      "scale": 1.0
+    },
+    {
+      "name": "var3",
+      "offset": 0.0,
+      "scale": 1.0
+    },
+    {
+      "name": "var4",
+      "offset": 0.0,
+      "scale": 1.0
+    }
+  ],
+  "keras_version": "1.2.0",
+  "nb_classes": 2,
+  "nb_inputs": 4,
+  "nb_testing": 999,
+  "nb_training": 999,
+  "nb_validation": 999,
+  "part of training-set for validation-set": 1.0
+}
