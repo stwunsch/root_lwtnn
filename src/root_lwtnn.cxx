@@ -11,10 +11,16 @@
 namespace po = boost::program_options;
 
 
+std::string description = "\
+This program computes the response of a neural network using the lwtnn library\n\
+based on inputs stored in a ROOT file. Either the response can be appended to\n\
+the given input tree or it can be stored to a new ROOT file.\n\n\
+Allowed options";
+
 po::variables_map* parse_options(int ac, char* av[]){
     try{
         // Define available options
-        po::options_description desc("Allowed options");
+        po::options_description desc(description);
         desc.add_options()
             ("help", "Print help message")
             ("verbose", "Make verbose output")
@@ -25,7 +31,7 @@ po::variables_map* parse_options(int ac, char* av[]){
             ("config", po::value<std::string>(),
                 "lwtnn config file")
             ("update",
-                "Update the existing tree instead of writing to a new one. The following options are obsolete if this option is set.")
+                "Update the given input tree instead of writing to a new output file.\nNOTE: The following options are obsolete if this option is set.")
             ("output-file", po::value<std::string>(),
                 "Output ROOT file with neural network response")
             ("output-tree", po::value<std::string>()->default_value("response"),
