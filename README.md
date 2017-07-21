@@ -48,14 +48,16 @@ The file `lwtnn.json` holds all information needed to execute the neural network
 > cd <this repository>/build/
 
 > # Append a new branch to the given tree in the input file
-> ./src/root_lwtnn --verbose \
+> ./src/root_lwtnn \
+>    --verbose \
 >    --config ../test/lwtnn.json \
 >    --input-file ../test/tmva_class_example.root \
 >    --input-tree TreeS \
 >    --update
 
 > # Create a new ROOT file with the network response
-> ./src/root_lwtnn --verbose \
+> ./src/root_lwtnn \
+>    --verbose \
 >    --config ../test/lwtnn.json \
 >    --input-file ../test/tmva_class_example.root \
 >    --input-tree TreeS \
