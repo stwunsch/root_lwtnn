@@ -20,6 +20,9 @@ find_package(Boost REQUIRED COMPONENTS program_options)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 find_package(lwtnn REQUIRED)
 
+# Find Python/C API (optional for performance comparison)
+find_package(PythonLibs QUIET)
+
 # Add include directories
 include_directories(include)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -28,4 +31,6 @@ include_directories(${LWTNN_INCLUDE_DIRS})
 
 # Add subdirectories
 add_subdirectory(src)
-#add_subdirectory(test)
+if(PYTHONLIBS_FOUND)
+    add_subdirectory(test)
+endif(PYTHONLIBS_FOUND)
