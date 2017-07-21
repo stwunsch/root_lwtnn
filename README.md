@@ -56,7 +56,7 @@ The following outputs yield that `lwtnn` is about 30 times faster than the naive
 
 real    1m41.416s
 user    1m41.153s
-sys	    0m0.194s
+sys     0m0.194s
 
 > # lwtnn
 > time ./src/root_lwtnn \
@@ -67,5 +67,5 @@ sys	    0m0.194s
 
 real    0m3.621s
 user    0m3.515s
-sys	    0m0.057s
+sys     0m0.057s
 ```
