@@ -24,6 +24,8 @@ po::variables_map* parse_options(int ac, char* av[]){
                 "Tree in input ROOT file")
             ("config", po::value<std::string>(),
                 "lwtnn config file")
+            ("update",
+                "Update the existing tree instead of writing to a new one. The following options are obsolete if this option is set.")
             ("output-file", po::value<std::string>(),
                 "Output ROOT file with neural network response")
             ("output-tree", po::value<std::string>()->default_value("response"),
@@ -50,12 +52,6 @@ po::variables_map* parse_options(int ac, char* av[]){
             return 0;
         }
 
-        // Input file
-        if(!vm->count("input-file")){
-            std::cerr << "No input ROOT file given." << std::endl;
-            return 0;
-        }
-
         // lwtnn JSON file
         if(!vm->count("config")){
             std::cerr << "No lwtnn config file given." << std::endl;
@@ -67,7 +63,13 @@ po::variables_map* parse_options(int ac, char* av[]){
                           << (*vm)["config"].as<std::string>() << std::endl;
         }
 
-        // Tree name
+        // Input file
+        if(!vm->count("input-file")){
+            std::cerr << "No input ROOT file given." << std::endl;
+            return 0;
+        }
+
+        // Input tree name
         if(!vm->count("input-tree")){
             std::cerr << "No tree in input ROOT file defined." << std::endl;
             return 0;
@@ -80,16 +82,30 @@ po::variables_map* parse_options(int ac, char* av[]){
                           << std::endl;
         }
 
+        // Check update flag
+        if(vm->count("update")){
+            if(verbose) std::cout << "Update input tree." << std::endl;
+
+            return vm;
+        }
+
         // Output file
         if(!vm->count("output-file")){
             std::cerr << "No output ROOT file given." << std::endl;
             return 0;
         }
+
+        // Output tree name
+        if(!vm->count("output-tree")){
+            std::cerr << "No tree in output ROOT file defined." << std::endl;
+            return 0;
+        }
         else{
             if(verbose)
-                std::cout << "Output file (file mode): "
+                std::cout << "Output file (tree name, filemode): "
                           << (*vm)["output-file"].as<std::string>()
-                          << " (" << (*vm)["filemode"].as<std::string>() << ")"
+                          << " (" << (*vm)["output-tree"].as<std::string>()
+                          << ", " << (*vm)["filemode"].as<std::string>() << ")"
                           << std::endl;
         }
 
@@ -116,6 +132,10 @@ int main(int ac, char* av[]){
     if(vm->count("verbose")) verbose = true;
     else verbose = false;
 
+    bool update;
+    if(vm->count("update")) update = true;
+    else update = false;
+
     // Set up lwtnn
     std::ifstream config_file((*vm)["config"].as<std::string>().c_str());
     lwt::JSONConfig config = lwt::parse_json(config_file);
@@ -129,8 +149,11 @@ int main(int ac, char* av[]){
             inputs[config.inputs.at(n).name] = 0.0;
 
     // Open ROOT input file, get tree and register branches
+    TString filemode;
+    if(update) filemode = "UPDATE";
+    else filemode = "READ";
     TFile* file_input = new TFile((*vm)["input-file"].as<std::string>().c_str(),
-            "READ");
+            filemode);
     if(file_input==0){
         std::cerr << "Can not open input ROOT file." << std::endl;
         return 1;
@@ -155,39 +178,56 @@ int main(int ac, char* av[]){
     }
 
     // Create ROOT output file, set up tree and branches
-    TFile* file_output = new TFile((*vm)["output-file"].as<std::string>().c_str(),
-            (*vm)["filemode"].as<std::string>().c_str());
-    if(file_output==0){
-        std::cerr << "Can not open output ROOT file." << std::endl;
-        return 1;
+    TFile* file_output;
+    TTree* tree_output;
+    if(update){
+        file_output = file_input;
+        tree_output = tree_input;
+    }
+    else{
+        file_output = new TFile((*vm)["output-file"].as<std::string>().c_str(),
+                (*vm)["filemode"].as<std::string>().c_str());
+        if(file_output==0){
+            std::cerr << "Can not open output ROOT file." << std::endl;
+            return 1;
+        }
+
+        TString tree_output_name = (*vm)["output-tree"].as<std::string>().c_str();
+        tree_output = new TTree(tree_output_name, tree_output_name);
     }
 
-    TString tree_output_name = (*vm)["output-tree"].as<std::string>().c_str();
-    TTree* tree_output = new TTree(tree_output_name, tree_output_name);
     double outputs[config.outputs.size()];
+    std::vector<TBranch*> branches;
     for(size_t n=0; n < config.outputs.size(); n++){
         TString name = config.outputs[n];
-        tree_output->Branch(name, outputs+n, name+"/D");
+        branches.push_back(tree_output->Branch(name, outputs+n, name+"/D"));
     }
 
     // Run event loop and add lwtnn response to output file
     if(verbose) std::cout << "Number of entries in tree: "
                           << tree_input->GetEntries() << std::endl;
+
     for(UInt_t ievent=0; ievent<tree_input->GetEntries(); ievent++){
         tree_input->GetEntry(ievent);
+
         for(size_t n=0; n<config.inputs.size(); n++)
             inputs[config.inputs.at(n).name] = input_values[n];
         lwt::ValueMap vmap = model.compute(inputs);
         for(size_t n=0; n<config.outputs.size(); n++)
             *(outputs+n) = vmap[config.outputs[n]];
 
-        tree_output->Fill();
+        if(update){
+            for(size_t ibranch=0; ibranch<branches.size(); ibranch++)
+                branches[ibranch]->Fill();
+        }
+        else tree_output->Fill();
     }
+
     file_output->Write();
 
     // Clean-up
     file_input->Close();
-    file_output->Close();
+    if(!update) file_output->Close();
 
     return 0;
 }
