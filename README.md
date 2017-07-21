@@ -5,6 +5,8 @@
 - ... add a branch with the neural network response to the given tree in the input ROOT file.
 - ... create a new ROOT file with the neural network response.
 
+The advantage of this approach is a fast inference with inputs from ROOT files, which is often needed in high-energy physics due to the large amount of data.
+
 ## How can I build it?
 
 First, you have to build `lwtnn` itself. Follow the instructions of their [`README`](https://github.com/lwtnn/lwtnn). As well, you can tell the `cmake` build system of this project, where it can find `lwtnn`.
