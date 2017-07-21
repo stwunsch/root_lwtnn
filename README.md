@@ -1,6 +1,6 @@
 # root_lwtnn
 
-`root_lwtnn` is an program which can ...
+`root_lwtnn` is a program which can ...
 
 - ... add a branch with the neural network response to the given tree in the input ROOT file.
 - ... create a new ROOT file with the neural network response.
