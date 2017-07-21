@@ -20,9 +20,9 @@ void PyRunString(const char* code,
 
 int main(void){
     // Configuration (hardcoded)
-    TString input_filename = "../test/tmva_class_example.root";
+    TString input_filename = "../test/tmva_class_example_large.root";
     TString input_treename = "TreeS";
-    TString output_filename = "test.root";
+    TString output_filename = "test_pythonc.root";
     TString output_treename = "response";
     std::vector<TString> varnames = {"var1", "var2", "var3", "var4"};
 
