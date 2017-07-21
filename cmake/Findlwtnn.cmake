@@ -6,6 +6,7 @@ find_path(
     NAMES lwtnn/LightweightNeuralNetwork.hh
     HINTS ${PC_LWTNN_INCLUDEDIR}
           ${PC_LWTNN_INCLUDE_DIRS}
+          lwtnn/include
     PATH_SUFFIXES lwtnn
 )
 
@@ -15,6 +16,7 @@ find_library(
     NAMES liblwtnn.so
     HINTS ${PC_LIBLWTNN_LIBDIR}
           ${PC_LIBLWTNN_LIBRARY_DIRS}
+          lwtnn/lib
 )
 
 if(LWTNN_LIBRARIES AND LWTNN_INCLUDE_DIRS)

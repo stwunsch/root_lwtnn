@@ -2,7 +2,7 @@
 
 `root_lwtnn` is an executable which can ...
 
-- ... add a branch with the neural network response to the input file/tree.
+- ... add a branch with the neural network response to the given tree in the input ROOT file.
 - ... create a new ROOT file with the neural network response.
 
 ## How can I build it?
@@ -13,10 +13,10 @@ First, you have to build `lwtnn` itself. Follow the instructions of their [`READ
 cd <this repository>
 git clone https://github.com/lwtnn/lwtnn
 cd lwtnn
-# build lwtnn ;)
+# build lwtnn
 ```
 
-The project is build using `cmake`, therefore run the following commands.
+The project is build using `cmake`, therefore run the following commands. Please note, that you have to set up a ROOT environment first, so that the ROOT libraries are found.
 
 ```
 cd <this repository>
