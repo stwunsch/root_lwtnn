@@ -40,7 +40,28 @@ Then, convert the weight file `weights.h5` and the architecture `architecture.js
 ./lwtnn_convert.sh
 ```
 
-That's it! The file `lwtnn.json` holds all information needed to execute the neural network.
+The file `lwtnn.json` holds all information needed to execute the neural network. Now, you can either append new branches with the neural network response to the input file or create a new ROOT file with the response. Try the following two configurations.
+
+```
+> cd <this repository>/build/
+
+> # Append a new branch to the given tree in the input file
+> ./src/root_lwtnn --verbose \
+>    --config ../test/lwtnn.json \
+>    --input-file ../test/tmva_class_example.root \
+>    --input-tree TreeS \
+>    --update
+
+> # Create a new ROOT file with the network response
+> ./src/root_lwtnn --verbose \
+>    --config ../test/lwtnn.json \
+>    --input-file ../test/tmva_class_example.root \
+>    --input-tree TreeS \
+>    --output-file response.root \
+>    --output-tree TreeS
+```
+
+The name of the branches is defined in the `variables.json` with the entries in `class_labels`. These names can be found as well in the config file `lwtnn.json`.
 
 ## Is it fast? Yes!
 
@@ -60,10 +81,10 @@ sys     0m0.194s
 
 > # lwtnn
 > time ./src/root_lwtnn \
-    --input-file ../test/tmva_class_example_large.root \
-    --input-tree TreeS \
-    --config ../test/lwtnn.json \
-    --output-file test_lwtnn.root
+>    --input-file ../test/tmva_class_example_large.root \
+>    --input-tree TreeS \
+>    --config ../test/lwtnn.json \
+>    --output-file test_lwtnn.root
 
 real    0m3.621s
 user    0m3.515s
