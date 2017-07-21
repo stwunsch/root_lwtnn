@@ -67,7 +67,7 @@ The name of the branches is defined in the `variables.json` with the entries in 
 
 ## Is it fast? Yes!
 
-In order to test this, it is set up the exectuable `test/test_pythonc`. This implements the same functionality than `lwtnn` using the Python/C API. The script `test/duplicate.py` can be used to create a ROOT file with 996000 events, which is used for testing the runtime. The used Keras backend is Theano (because the environment variable `OMP_NUM_THREADS=1' makes it easy to restrict it to a single core).
+In order to test this, it is set up the exectuable `test/test_pythonc`. This implements the same functionality than `lwtnn` using the Python/C API. The script `test/duplicate.py` can be used to create a ROOT file with 996000 events, which is used for testing the runtime. The used Keras backend is Theano (because the environment variable `OMP_NUM_THREADS=1` makes it easy to restrict it to a single core).
 
 The following outputs yield that `lwtnn` is about 30 times faster than the naive Python/C approach.
 
