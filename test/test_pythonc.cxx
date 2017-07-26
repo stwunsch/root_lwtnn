@@ -75,8 +75,8 @@ int main(void){
     // Run event loop
     for(size_t ievent=0; ievent<input_tree->GetEntries(); ievent++){
         input_tree->GetEntry(ievent);
-        PyRunString("x = model.predict(vars)", global_ns, local_ns);
-        PyRunString("response[0:2] = x[0:2]", global_ns, local_ns);
+        PyRunString("x = model.predict(vars); response[0:2] = x[0:2]",
+                global_ns, local_ns);
         output_tree->Fill();
     }
     output_file->Write();
