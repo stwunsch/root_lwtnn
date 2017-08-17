@@ -6,3 +6,6 @@ add_executable(root_lwtnn ${SOURCES})
 
 # Link libraries to the executable
 target_link_libraries(root_lwtnn ${ROOT_LIBRARIES} ${Boost_LIBRARIES} ${LWTNN_LIBRARIES})
+
+# Install target
+install(TARGETS root_lwtnn DESTINATION bin)

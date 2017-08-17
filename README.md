@@ -26,6 +26,7 @@ mkdir build
 cd build
 cmake ..
 make
+# optional: make install
 ```
 
 ## How can I train a model with Keras and load it with this program?
